@@ -1,0 +1,384 @@
+!T1
+ena
+		configure terminal
+		 hostname T1
+		 interface GigabitEthernet0/0
+		  ip address 90.0.1.1 255.255.255.0
+		  ipv6 address F:E:D:1::1/64
+		  no shutdown
+		  exit
+		 interface Serial0/0/0
+		  ip address 90.0.0.1 255.255.255.252
+		  ipv6 address F:E:D::1/126
+		  no shutdown
+	ip route 90.0.0.4 255.255.255.252 90.0.0.2
+		 ip route 90.0.0.8 255.255.255.252 90.0.0.2
+		 ip route 90.0.0.12 255.255.255.252 90.0.0.2
+		 ip route 90.0.0.16 255.255.255.252 90.0.0.2
+		 ip route 90.0.0.20 255.255.255.252 90.0.0.2
+		 ip route 90.0.0.24 255.255.255.252 90.0.0.2
+		 ip route 90.0.2.0 255.255.255.0 90.0.0.2
+		 ip route 90.0.3.0 255.255.255.0 90.0.0.2
+		 ip route 90.0.4.0 255.255.255.0 90.0.0.2
+		 ip route 90.0.5.0 255.255.255.0 90.0.0.2
+		 ip route 90.0.6.0 255.255.255.0 90.0.0.2
+		 ipv6 unicast-routing
+		 ipv6 route F:E:D::4/126 F:E:D::2
+		 ipv6 route F:E:D::8/126 F:E:D::2
+		 ipv6 route F:E:D::C/126 F:E:D::2
+		 ipv6 route F:E:D::10/126 F:E:D::2
+		 ipv6 route F:E:D::14/126 F:E:D::2
+		 ipv6 route F:E:D::18/126 F:E:D::2
+		 ipv6 route F:E:D:2::/64 F:E:D::2
+		 ipv6 route F:E:D:3::/64 F:E:D::2
+		 ipv6 route F:E:D:4::/64 F:E:D::2
+		 ipv6 route F:E:D:5::/64 F:E:D::2
+		 ipv6 route F:E:D:6::/64 F:E:D::2
+		 end
+
+!SW1
+ena
+		configure terminal
+		 hostname Sw1
+		 interface Vlan1
+		  ip address 90.0.1.2 255.255.255.0
+		  no shutdown
+		  exit
+		 ip default-gateway 90.0.1.1
+		 end
+!T2
+ena
+configure terminal
+		 hostname T2
+		 interface GigabitEthernet0/0
+		  ip address 90.0.2.1 255.255.255.0
+		  ipv6 address F:E:D:2::1/64
+		  no shutdown
+		  exit
+		 interface GigabitEthernet0/1
+		  ip address 90.0.0.9 255.255.255.252
+		  ipv6 address F:E:D::9/126
+		  no shutdown
+		  exit
+		 interface Serial0/0/0
+		  ip address 90.0.0.2 255.255.255.252
+		  ipv6 address F:E:D::2/126
+		  no shutdown
+		  exit
+		 interface Serial0/0/1
+		  ip address 90.0.0.5 255.255.255.252
+		  ipv6 address F:E:D::5/126
+		  no shutdown
+
+	 ip route 90.0.0.12 255.255.255.252 90.0.0.10
+		 ip route 90.0.0.16 255.255.255.252 90.0.0.10
+		 ip route 90.0.0.20 255.255.255.252 90.0.0.10
+		 ip route 90.0.0.24 255.255.255.252 90.0.0.10
+		 ip route 90.0.1.0 255.255.255.0 90.0.0.1
+		 ip route 90.0.3.0 255.255.255.0 90.0.0.6
+		 ip route 90.0.4.0 255.255.255.0 90.0.0.10
+		 ip route 90.0.5.0 255.255.255.0 90.0.0.10
+		 ip route 90.0.6.0 255.255.255.0 90.0.0.10
+		 ipv6 unicast-routing
+		 ipv6 route F:E:D::C/126 F:E:D::A
+		 ipv6 route F:E:D::10/126 F:E:D::A
+		 ipv6 route F:E:D::14/126 F:E:D::A
+		 ipv6 route F:E:D::18/126 F:E:D::A
+		 ipv6 route F:E:D:1::/64 F:E:D::1
+		 ipv6 route F:E:D:3::/64 F:E:D::6
+		 ipv6 route F:E:D:4::/64 F:E:D::A
+		 ipv6 route F:E:D:5::/64 F:E:D::A
+		 ipv6 route F:E:D:6::/64 F:E:D::A
+		end
+!SW2
+ena
+configure terminal
+		 hostname SW2
+		 interface Vlan1
+		  ip address 90.0.2.2 255.255.255.0
+		  no shutdown
+		  exit
+		 ip default-gateway 90.0.2.1
+     end
+!T3
+ena
+configure terminal
+		 hostname T3
+		 interface GigabitEthernet0/0
+		  ip address 90.0.3.1 255.255.255.0
+		  ipv6 address F:E:D:3::1/64
+		  no shutdown
+		  exit
+		 interface Serial0/0/0
+		  ip address 90.0.0.6 255.255.255.252
+		  ipv6 address F:E:D::6/126
+		  no shutdown
+
+	ip route 90.0.0.0 255.255.255.252 90.0.0.5
+		 ip route 90.0.0.8 255.255.255.252 90.0.0.5
+		 ip route 90.0.0.12 255.255.255.252 90.0.0.5
+		 ip route 90.0.0.16 255.255.255.252 90.0.0.5
+		 ip route 90.0.0.20 255.255.255.252 90.0.0.5
+		 ip route 90.0.0.24 255.255.255.252 90.0.0.5
+		 ip route 90.0.1.0 255.255.255.0 90.0.0.5
+		 ip route 90.0.2.0 255.255.255.0 90.0.0.5
+		 ip route 90.0.4.0 255.255.255.0 90.0.0.5
+		 ip route 90.0.5.0 255.255.255.0 90.0.0.5
+		 ip route 90.0.6.0 255.255.255.0 90.0.0.5
+		 ipv6 unicast-routing
+		 ipv6 route F:E:D::0/126 F:E:D::5
+		 ipv6 route F:E:D::8/126 F:E:D::5
+		 ipv6 route F:E:D::C/126 F:E:D::5
+		 ipv6 route F:E:D::10/126 F:E:D::5
+		 ipv6 route F:E:D::14/126 F:E:D::5
+		 ipv6 route F:E:D::18/126 F:E:D::5
+		 ipv6 route F:E:D:1::/64 F:E:D::5
+		 ipv6 route F:E:D:2::/64 F:E:D::5
+		 ipv6 route F:E:D:4::/64 F:E:D::5
+		 ipv6 route F:E:D:5::/64 F:E:D::5
+		 ipv6 route F:E:D:6::/64 F:E:D::5
+end
+
+!SW3
+ena
+configure terminal
+		 hostname SW3
+		 interface Vlan1
+		  ip address 90.0.3.2 255.255.255.0
+		  no shutdown
+		  exit
+		 ip default-gateway 90.0.3.1
+		 end
+!T4
+ena
+configure terminal
+		 hostname T4
+		 interface GigabitEthernet0/0
+		  ip address 90.0.4.1 255.255.255.0
+		  ipv6 address F:E:D:4::1/64
+		  no shutdown
+		  exit
+		 interface Serial0/0/0
+		  ip address 90.0.0.22 255.255.255.252
+		  ipv6 address F:E:D::16/126
+		  no shutdown
+
+		ip route 90.0.0.0 255.255.255.252 90.0.0.25
+		 ip route 90.0.0.4 255.255.255.252 90.0.0.25
+		 ip route 90.0.0.8 255.255.255.252 90.0.0.25
+		 ip route 90.0.0.12 255.255.255.252 90.0.0.25
+		 ip route 90.0.0.16 255.255.255.252 90.0.0.25
+		 ip route 90.0.0.20 255.255.255.252 90.0.0.25
+		 ip route 90.0.1.0 255.255.255.0 90.0.0.25
+		 ip route 90.0.2.0 255.255.255.0 90.0.0.25
+		 ip route 90.0.3.0 255.255.255.0 90.0.0.25
+		 ip route 90.0.4.0 255.255.255.0 90.0.0.25
+		 ip route 90.0.5.0 255.255.255.0 90.0.0.25
+		 ipv6 unicast-routing
+		 ipv6 route F:E:D::0/126 F:E:D::19
+		 ipv6 route F:E:D::4/126 F:E:D::19
+		 ipv6 route F:E:D::8/126 F:E:D::19
+		 ipv6 route F:E:D::C/126 F:E:D::19
+		 ipv6 route F:E:D::10/126 F:E:D::19
+		 ipv6 route F:E:D::14/126 F:E:D::19
+		 ipv6 route F:E:D:1::/64 F:E:D::19
+		 ipv6 route F:E:D:2::/64 F:E:D::19
+		 ipv6 route F:E:D:3::/64 F:E:D::19
+		 ipv6 route F:E:D:4::/64 F:E:D::19
+		 ipv6 route F:E:D:5::/64 F:E:D::19
+		 end
+
+!SW4
+ena
+configure terminal
+		 hostname Sw4
+		 interface Vlan1
+		  ip address 90.0.4.2 255.255.255.0
+		  no shutdown
+		  exit
+		 ip default-gateway 90.0.4.1
+		 end
+!T5
+ena
+configure terminal
+		 hostname T5
+		 interface GigabitEthernet0/0
+		  ip address 90.0.5.1 255.255.255.0
+		  ipv6 address F:E:D:5::1/64
+		  no shutdown
+		  exit
+		 interface GigabitEthernet0/1
+		  ip address 90.0.0.18 255.255.255.252
+		  ipv6 address F:E:D::12/126
+		  no shutdown
+		  exit
+		 interface Serial0/0/0
+		  ip address 90.0.0.25 255.255.255.252
+		  ipv6 address F:E:D::19/126
+		  no shutdown
+		  exit
+		 interface Serial0/0/1
+		  ip address 90.0.0.21 255.255.255.252
+		  ipv6 address F:E:D::15/126
+		  no shutdown
+	ip route 90.0.0.0 255.255.255.252 90.0.0.17
+		 ip route 90.0.0.4 255.255.255.252 90.0.0.17
+		 ip route 90.0.0.8 255.255.255.252 90.0.0.17
+		 ip route 90.0.0.12 255.255.255.252 90.0.0.17
+		 ip route 90.0.1.0 255.255.255.0 90.0.0.7
+		 ip route 90.0.2.0 255.255.255.0 90.0.0.7
+		 ip route 90.0.3.0 255.255.255.0 90.0.0.17
+		 ip route 90.0.4.0 255.255.255.0 90.0.0.22
+		 ip route 90.0.6.0 255.255.255.0 90.0.0.26
+		 ipv6 unicast-routing
+		 ipv6 route F:E:D::/126 F:E:D::11
+		 ipv6 route F:E:D::4/126 F:E:D::11
+		 ipv6 route F:E:D::8/126 F:E:D::11
+		 ipv6 route F:E:D::C/126 F:E:D::11
+		 ipv6 route F:E:D:1::/64 F:E:D::11
+		 ipv6 route F:E:D:2::/64 F:E:D::11
+		 ipv6 route F:E:D:3::/64 F:E:D::11
+		 ipv6 route F:E:D:4::/64 F:E:D::16
+		 ipv6 route F:E:D:6::/64 F:E:D::1A
+		 end
+!SW5
+ena
+configure terminal
+		 hostname SW5
+		 interface Vlan1
+		  ip address 90.0.5.2 255.255.255.0
+		  no shutdown
+		  exit
+		 ip default-gateway 90.0.5.1
+		 end
+!T6
+ena
+configure terminal
+		 hostname T6
+		 interface GigabitEthernet0/0
+		  ip address 90.0.6.1 255.255.255.0
+		  ipv6 address F:E:D:6::1/64
+		  no shutdown
+		  exit
+		 interface Serial0/0/0
+		  ip address 90.0.0.26 255.255.255.252
+		  ipv6 address F:E:D::1A/126
+		  no shutdown
+		 ip route 90.0.0.0 255.255.255.252 90.0.0.21
+		 ip route 90.0.0.4 255.255.255.252 90.0.0.21
+		 ip route 90.0.0.8 255.255.255.252 90.0.0.21
+		 ip route 90.0.0.12 255.255.255.252 90.0.0.21
+		 ip route 90.0.0.16 255.255.255.252 90.0.0.21
+		 ip route 90.0.0.24 255.255.255.252 90.0.0.21
+		 ip route 90.0.1.0 255.255.255.0 90.0.0.21
+		 ip route 90.0.2.0 255.255.255.0 90.0.0.21
+		 ip route 90.0.3.0 255.255.255.0 90.0.0.21
+		 ip route 90.0.5.0 255.255.255.0 90.0.0.21
+		 ip route 90.0.6.0 255.255.255.0 90.0.0.21
+		 ipv6 unicast-routing
+		 ipv6 route F:E:D::0/126 F:E:D::15
+		 ipv6 route F:E:D::4/126 F:E:D::15
+		 ipv6 route F:E:D::8/126 F:E:D::15
+		 ipv6 route F:E:D::C/126 F:E:D::15
+		 ipv6 route F:E:D::10/126 F:E:D::15
+		 ipv6 route F:E:D::18/126 F:E:D::15
+		 ipv6 route F:E:D:1::/64 F:E:D::15
+		 ipv6 route F:E:D:2::/64 F:E:D::15
+		 ipv6 route F:E:D:3::/64 F:E:D::15
+		 ipv6 route F:E:D:5::/64 F:E:D::15
+		 ipv6 route F:E:D:6::/64 F:E:D::15
+		 end
+!SW6
+ena
+configure terminal
+		 hostname Sw6
+		 interface Vlan1
+		  ip address 90.0.6.2 255.255.255.0
+		  no shutdown
+		  exit
+		 ip default-gateway 90.0.6.1
+		 end
+!SWC1
+ena
+configure terminal
+		 hostname SWC1
+		 interface GigabitEthernet1/0/1
+		  no switchport
+		  ip address 90.0.0.13 255.255.255.252
+		  ipv6 address F:E:D::D/126
+		  no shutdown
+		  exit
+		 interface GigabitEthernet1/0/2
+		  no switchport
+		  ip address 90.0.0.10 255.255.255.252
+		  ipv6 address F:E:D::A/126
+		  no shutdown
+		  ip route 90.0.0.0 255.255.255.252 90.0.0.9
+		 ip route 90.0.0.4 255.255.255.252 90.0.0.9
+		 ip route 90.0.0.16 255.255.255.252 90.0.0.14
+		 ip route 90.0.0.20 255.255.255.252 90.0.0.14
+		 ip route 90.0.0.24 255.255.255.252 90.0.0.14
+		 ip route 90.0.1.0 255.255.255.0 90.0.0.9
+		 ip route 90.0.2.0 255.255.255.0 90.0.0.9
+		 ip route 90.0.3.0 255.255.255.0 90.0.0.9
+		 ip route 90.0.4.0 255.255.255.0 90.0.0.14
+		 ip route 90.0.5.0 255.255.255.0 90.0.0.14
+		 ip route 90.0.6.0 255.255.255.0 90.0.0.14
+		 ipv6 unicast-routing
+		 ipv6 route F:E:D::0/126 F:E:D::9
+		 ipv6 route F:E:D::8/126 F:E:D::9
+		 ipv6 route F:E:D::10/126 F:E:D::E
+		 ipv6 route F:E:D::14/126 F:E:D::E
+		 ipv6 route F:E:D::18/126 F:E:D::E
+		 ipv6 route F:E:D:1::/64 F:E:D::9
+		 ipv6 route F:E:D:2::/64 F:E:D::9
+		 ipv6 route F:E:D:3::/64 F:E:D::9
+		 ipv6 route F:E:D:4::/64 F:E:D::E
+		 ipv6 route F:E:D:5::/64 F:E:D::E
+		 ipv6 route F:E:D:6::/64 F:E:D::E
+		 end
+
+!SWC2
+ena
+configure terminal
+		 hostname SWC2
+		 interface GigabitEthernet1/0/1
+		  no switchport
+		  ip address 90.0.0.14 255.255.255.252
+		  ipv6 address F:E:D::E/126
+		  no shutdown
+		  exit
+		 interface GigabitEthernet1/0/2
+		  no switchport
+		  ip address 90.0.0.17 255.255.255.252
+		  ipv6 address F:E:D::11/126
+		  no shutdown
+		 ip route 90.0.0.0 255.255.255.252 90.0.0.13
+		 ip route 90.0.0.4 255.255.255.252 90.0.0.13
+		 ip route 90.0.0.8 255.255.255.252 90.0.0.13
+		 ip route 90.0.0.20 255.255.255.252 90.0.0.18
+		 ip route 90.0.0.24 255.255.255.252 90.0.0.18
+		 ip route 90.0.1.0 255.255.255.0 90.0.0.13
+		 ip route 90.0.2.0 255.255.255.0 90.0.0.13
+		 ip route 90.0.3.0 255.255.255.0 90.0.0.13
+		 ip route 90.0.4.0 255.255.255.0 90.0.0.18
+		 ip route 90.0.5.0 255.255.255.0 90.0.0.18
+		 ip route 90.0.6.0 255.255.255.0 90.0.0.18
+		 ipv6 unicast-routing
+		 ipv6 route F:E:D::0/126 F:E:D::D
+		 ipv6 route F:E:D::4/126 F:E:D::D
+		 ipv6 route F:E:D::8/126 F:E:D::D
+		 ipv6 route F:E:D::14/126 F:E:D::12
+		 ipv6 route F:E:D::18/126 F:E:D::12
+		 ipv6 route F:E:D:1::/64 F:E:D::D
+		 ipv6 route F:E:D:2::/64 F:E:D::D
+		 ipv6 route F:E:D:3::/64 F:E:D::D
+		 ipv6 route F:E:D:4::/64 F:E:D::12
+		 ipv6 route F:E:D:5::/64 F:E:D::12
+		 ipv6 route F:E:D:6::/64 F:E:D::12
+		 end
+
+
+
+
+
