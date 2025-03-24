@@ -1,0 +1,27 @@
+import numpy as np
+
+# Lista de números
+numeros = [45, 12, 78, 34, 2, 89, 5, 67, 8, 56]
+
+def recocido_simulado(lista, T=100, Tmin=0.1, alpha=0.9):
+    x = np.random.choice(lista)  # Elegimos un número inicial
+    while T > Tmin:
+        x_nuevo = np.random.choice(lista)  # Elegimos otro número aleatorio
+        
+        # Si el nuevo número es menor, lo aceptamos
+        if x_nuevo < x:
+            x = x_nuevo
+        else:
+            # Si es mayor, lo aceptamos con una probabilidad pequeña
+            if np.random.rand() < np.exp(-(x_nuevo - x) / T):
+                x = x_nuevo
+        
+        # Reducimos la temperatura
+        T *= alpha
+
+    return x
+
+# Ejecutar el algoritmo
+minimo_encontrado = recocido_simulado(numeros)
+print(f"El menor número encontrado es: {minimo_encontrado}")
+print(f"El verdadero mínimo es: {min(numeros)}")  # Para comparar
