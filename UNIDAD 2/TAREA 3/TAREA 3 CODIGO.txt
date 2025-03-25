@@ -1,27 +1,71 @@
 import numpy as np
+import random
+import math
 
-# Lista de números
-numeros = [45, 12, 78, 34, 2, 89, 5, 67, 8, 56]
+def generar_estado_inicial(N=8):
 
-def recocido_simulado(lista, T=100, Tmin=0.1, alpha=0.9):
-    x = np.random.choice(lista)  # Elegimos un número inicial
-    while T > Tmin:
-        x_nuevo = np.random.choice(lista)  # Elegimos otro número aleatorio
+    return np.random.permutation(N)  # Devuelve una permutación aleatoria de [0, 1, ..., N-1]
+
+def calcular_conflictos(tablero):
+
+    conflictos = 0
+    N = len(tablero)
+    
+    for i in range(N):
+        for j in range(i + 1, N):  # Comparar solo con las siguientes filas para evitar duplicados
+            if abs(tablero[i] - tablero[j]) == abs(i - j):
+                conflictos += 1
+
+    return conflictos 
+
+def generar_vecino(tablero):
+    vecino = tablero.copy()  # Hacemos una copia del tablero actual
+    i, j = random.sample(range(len(tablero)), 2)  # Seleccionamos dos filas aleatorias
+    vecino[i], vecino[j] = vecino[j], vecino[i]  # Intercambiamos las columnas de esas filas
+    
+    return vecino  # Retorna el nuevo tablero modificado
+
+def recocido_simulado(N=8, temperatura_inicial=1000, tasa_enfriamiento=0.99, iteraciones=10000):
+
+    
+    tablero = generar_estado_inicial(N)
+    
+    conflictos_actual = calcular_conflictos(tablero)
+    
+    temperatura = temperatura_inicial  
+
+    for _ in range(iteraciones):
+        if conflictos_actual == 0:
+            return tablero  
         
-        # Si el nuevo número es menor, lo aceptamos
-        if x_nuevo < x:
-            x = x_nuevo
-        else:
-            # Si es mayor, lo aceptamos con una probabilidad pequeña
-            if np.random.rand() < np.exp(-(x_nuevo - x) / T):
-                x = x_nuevo
+        nuevo_tablero = generar_vecino(tablero)
         
-        # Reducimos la temperatura
-        T *= alpha
+        conflictos_nuevo = calcular_conflictos(nuevo_tablero)
+        
+        delta = conflictos_nuevo - conflictos_actual
+        
+        if delta < 0 or random.uniform(0, 1) < math.exp(-delta / temperatura):
+            tablero = nuevo_tablero  
+            conflictos_actual = conflictos_nuevo  
+        
+        temperatura *= tasa_enfriamiento  
 
-    return x
+        # Si la temperatura es muy baja, terminamos la búsqueda
+        if temperatura < 1e-3:
+            break
 
-# Ejecutar el algoritmo
-minimo_encontrado = recocido_simulado(numeros)
-print(f"El menor número encontrado es: {minimo_encontrado}")
-print(f"El verdadero mínimo es: {min(numeros)}")  # Para comparar
+
+    return tablero if conflictos_actual == 0 else None
+
+
+N = 8
+solucion = recocido_simulado(N)
+
+# Mostrar la solución
+if solucion is not None:
+    print("Solución encontrada:", solucion)
+    for i in range(N):
+        fila = ["Q" if solucion[i] == j else "." for j in range(N)]
+        print(" ".join(fila))
+else:
+    print("No se encontró solución")
